@@ -142,112 +142,11 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeSliders();
     }, 100);
     
-    // Mobile navigation toggle for small screens
-    function handleMobileNavigation() {
-        if (window.innerWidth <= 768) {
-            const navList = document.querySelector('.nav-list');
-            const logo = document.querySelector('.logo');
-            
-            // Create mobile menu button if it doesn't exist
-            if (!document.querySelector('.mobile-menu-btn')) {
-                const menuBtn = document.createElement('button');
-                menuBtn.className = 'mobile-menu-btn';
-                menuBtn.innerHTML = `
-                  
-                `;
-                
-                // Add CSS for mobile menu button
-                const style = document.createElement('style');
-                style.textContent = `
-                    .mobile-menu-btn {
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                        width: 30px;
-                        height: 21px;
-                        background: transparent;
-                        border: none;
-                        cursor: pointer;
-                        padding: 0;
-                        z-index: 1001;
-                    }
-                    
-                    .burger-line {
-                        width: 100%;
-                        height: 3px;
-                        background-color: var(--primary-color);
-                        border-radius: 3px;
-                        transition: var(--transition);
-                    }
-                    
-                    .mobile-menu-btn.active .burger-line:nth-child(1) {
-                        transform: rotate(45deg) translate(6px, 6px);
-                    }
-                    
-                    .mobile-menu-btn.active .burger-line:nth-child(2) {
-                        opacity: 0;
-                    }
-                    
-                    .mobile-menu-btn.active .burger-line:nth-child(3) {
-                        transform: rotate(-45deg) translate(6px, -6px);
-                    }
-                    
-                    @media (min-width: 769px) {
-                        .mobile-menu-btn {
-                            display: none;
-                        }
-                    }
-                `;
-                document.head.appendChild(style);
-                
-                menuBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    navList.classList.toggle('show');
-                    this.classList.toggle('active');
-                });
-                
-                // Insert button after logo
-                if (logo && logo.parentNode) {
-                    logo.parentNode.insertBefore(menuBtn, logo.nextSibling);
-                }
-                
-                // Close menu when clicking outside
-                document.addEventListener('click', function(e) {
-                    if (navList.classList.contains('show') && 
-                        !navList.contains(e.target) && 
-                        !menuBtn.contains(e.target)) {
-                        navList.classList.remove('show');
-                        menuBtn.classList.remove('active');
-                    }
-                });
-                
-                // Close menu when clicking on a link
-                navLinks.forEach(link => {
-                    link.addEventListener('click', function() {
-                        navList.classList.remove('show');
-                        menuBtn.classList.remove('active');
-                    });
-                });
-            }
-        } else {
-            // Remove mobile menu button on larger screens
-            const menuBtn = document.querySelector('.mobile-menu-btn');
-            if (menuBtn) {
-                menuBtn.remove();
-            }
-            
-            // Ensure nav list is visible
-            const navList = document.querySelector('.nav-list');
-            if (navList) {
-                navList.classList.remove('show');
-                navList.style.display = 'flex';
-            }
-        }
-    }
+    // Инициализация мобильной навигации
+    initializeMobileNavigation();
     
-    // Handle mobile navigation on load and resize
-    handleMobileNavigation();
-    window.addEventListener('resize', handleMobileNavigation);
+    // Инициализация галерей изображений
+    initializeGalleries();
     
     // Add current year to footer
     const yearElement = document.querySelector('.current-year');
@@ -255,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
         yearElement.textContent = new Date().getFullYear();
     }
     
-    // Smooth scroll for navigation links
+    // Smooth scroll for navigation links (для десктопного меню)
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -264,14 +163,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (targetId.startsWith('#')) {
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
-                    // Close mobile menu if open
-                    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-                    const navList = document.querySelector('.nav-list');
-                    if (mobileMenuBtn && navList.classList.contains('show')) {
-                        navList.classList.remove('show');
-                        mobileMenuBtn.classList.remove('active');
-                    }
-                    
                     // Scroll to target
                     window.scrollTo({
                         top: targetElement.offsetTop - 80,
@@ -551,12 +442,18 @@ function initializeImageModal(slides) {
     }
     
     let currentModalSlide = 0;
-    const totalModalSlides = slides.length;
+    let modalImages = [];
     
-    function openModal(slideIndex) {
-        console.log('Opening modal for slide:', slideIndex);
-        currentModalSlide = slideIndex;
-        updateModal();
+    function openModal(imageSrc, caption) {
+        console.log('Opening modal for image:', imageSrc);
+        modalImage.src = imageSrc;
+        modalImage.alt = caption || '';
+        modalCaption.textContent = caption || '';
+        
+        // Найти индекс изображения в массиве
+        currentModalSlide = modalImages.findIndex(img => img.src === imageSrc);
+        if (currentModalSlide === -1) currentModalSlide = 0;
+        
         modal.classList.add('active');
         document.body.style.overflow = 'hidden'; // Блокируем скролл страницы
         
@@ -574,25 +471,26 @@ function initializeImageModal(slides) {
     }
     
     function updateModal() {
-        const activeSlide = slides[currentModalSlide];
-        const imageSrc = activeSlide.querySelector('img').src;
-        const caption = activeSlide.querySelector('.square-slide-caption').textContent;
-        
-        modalImage.src = imageSrc;
-        modalImage.alt = caption;
-        modalCaption.textContent = caption;
-        
-        console.log('Modal updated:', { src: imageSrc, caption: caption });
+        if (modalImages.length > 0 && currentModalSlide >= 0 && currentModalSlide < modalImages.length) {
+            const currentImage = modalImages[currentModalSlide];
+            modalImage.src = currentImage.src;
+            modalImage.alt = currentImage.alt || '';
+            modalCaption.textContent = currentImage.caption || '';
+        }
     }
     
     function nextModalSlide() {
-        currentModalSlide = (currentModalSlide + 1) % totalModalSlides;
-        updateModal();
+        if (modalImages.length > 0) {
+            currentModalSlide = (currentModalSlide + 1) % modalImages.length;
+            updateModal();
+        }
     }
     
     function prevModalSlide() {
-        currentModalSlide = (currentModalSlide - 1 + totalModalSlides) % totalModalSlides;
-        updateModal();
+        if (modalImages.length > 0) {
+            currentModalSlide = (currentModalSlide - 1 + modalImages.length) % modalImages.length;
+            updateModal();
+        }
     }
     
     function handleKeyDown(e) {
@@ -605,42 +503,96 @@ function initializeImageModal(slides) {
         }
     }
     
-    // Добавляем обработчики для открытия модального окна
-    slides.forEach((slide, index) => {
-        // Обработчик для всего слайда
-        slide.addEventListener('click', (e) => {
-            // Проверяем, не было ли клика по элементам управления слайдером
-            const isControlClick = e.target.closest('.square-slider-btn') || 
-                                  e.target.closest('.square-dot') ||
-                                  e.target.classList.contains('square-slider-btn') ||
-                                  e.target.classList.contains('square-dot');
+    // Собираем все изображения из слайдеров и галерей
+    function collectAllImages() {
+        modalImages = [];
+        
+        // Из слайдеров
+        const slideImages = document.querySelectorAll('.square-slide img, .slide img');
+        slideImages.forEach(img => {
+            modalImages.push({
+                src: img.src,
+                alt: img.alt,
+                caption: img.closest('.square-slide') ? 
+                    img.closest('.square-slide').querySelector('.square-slide-caption')?.textContent || '' :
+                    img.closest('.slide')?.querySelector('.slide-caption')?.textContent || ''
+            });
+        });
+        
+        // Из галерей
+        const galleryImages = document.querySelectorAll('.gallery-item img');
+        galleryImages.forEach(img => {
+            modalImages.push({
+                src: img.src,
+                alt: img.alt,
+                caption: ''
+            });
+        });
+        
+        console.log('Collected images for modal:', modalImages.length);
+    }
+    
+    // Инициализация обработчиков для изображений
+    function initializeImageHandlers() {
+        // Для слайдеров
+        const slideItems = document.querySelectorAll('.square-slide, .slide');
+        slideItems.forEach((item, index) => {
+            const img = item.querySelector('img');
+            const overlay = item.querySelector('.square-slide-overlay') || item.querySelector('.slide-overlay');
+            const caption = item.querySelector('.square-slide-caption') || item.querySelector('.slide-caption');
             
-            if (!isControlClick) {
-                console.log('Slide clicked, opening modal');
-                openModal(index);
+            const clickHandler = (e) => {
+                // Проверяем, не было ли клика по элементам управления слайдером
+                const isControlClick = e.target.closest('.slider-btn') || 
+                                      e.target.closest('.dot') ||
+                                      e.target.closest('.square-slider-btn') ||
+                                      e.target.closest('.square-dot') ||
+                                      e.target.classList.contains('slider-btn') ||
+                                      e.target.classList.contains('dot') ||
+                                      e.target.classList.contains('square-slider-btn') ||
+                                      e.target.classList.contains('square-dot');
+                
+                if (!isControlClick && img && img.src) {
+                    console.log('Slide clicked, opening modal');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openModal(img.src, caption?.textContent || '');
+                }
+            };
+            
+            item.addEventListener('click', clickHandler);
+            
+            if (overlay) {
+                overlay.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    console.log('Overlay clicked, opening modal');
+                    openModal(img.src, caption?.textContent || '');
+                });
             }
         });
         
-        // Также добавляем обработчик для изображения внутри слайда
-        const slideImage = slide.querySelector('img');
-        if (slideImage) {
-            slideImage.addEventListener('click', (e) => {
-                e.stopPropagation();
-                console.log('Slide image clicked, opening modal');
-                openModal(index);
-            });
-        }
-        
-        // Обработчик для overlay (иконки увеличения)
-        const slideOverlay = slide.querySelector('.square-slide-overlay');
-        if (slideOverlay) {
-            slideOverlay.addEventListener('click', (e) => {
-                e.stopPropagation();
-                console.log('Overlay clicked, opening modal');
-                openModal(index);
-            });
-        }
-    });
+        // Для галерей
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        galleryItems.forEach(item => {
+            const img = item.querySelector('img');
+            const overlay = item.querySelector('.gallery-overlay');
+            
+            if (img && img.src) {
+                const clickHandler = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Gallery item clicked, opening modal');
+                    openModal(img.src, '');
+                };
+                
+                item.addEventListener('click', clickHandler);
+                
+                if (overlay) {
+                    overlay.addEventListener('click', clickHandler);
+                }
+            }
+        });
+    }
     
     // Добавляем обработчики для кнопок модального окна
     if (modalCloseBtn) {
@@ -708,287 +660,51 @@ function initializeImageModal(slides) {
         }
     }
     
+    // Инициализация
+    collectAllImages();
+    initializeImageHandlers();
+    
     console.log('Image modal initialized successfully');
 }
 
-// Вспомогательные функции для форм (если будут добавлены в будущем)
-function isValidEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-}
-
-function showError(input, message) {
-    const formGroup = input.parentElement;
+// Инициализация галерей изображений
+function initializeGalleries() {
+    console.log('Initializing galleries...');
     
-    // Remove existing error
-    const existingError = formGroup.querySelector('.error-message');
-    if (existingError) {
-        existingError.remove();
-    }
+    const galleryItems = document.querySelectorAll('.gallery-item');
     
-    // Add error class to input
-    input.classList.add('error');
-    
-    // Create error message
-    const error = document.createElement('div');
-    error.className = 'error-message';
-    error.style.color = '#f44336';
-    error.style.fontSize = '0.85rem';
-    error.style.marginTop = '5px';
-    error.textContent = message;
-    formGroup.appendChild(error);
-}
-
-function removeError(input) {
-    input.classList.remove('error');
-    const formGroup = input.parentElement;
-    const error = formGroup.querySelector('.error-message');
-    if (error) {
-        error.remove();
-    }
-}
-
-// Touch device detection and enhancement
-if ('ontouchstart' in window) {
-    // Add touch-specific styles
-    const touchStyle = document.createElement('style');
-    touchStyle.textContent = `
-        @media (max-width: 768px) {
-            .nav-link {
-                padding: 15px 0;
-                font-size: 1.1rem;
-            }
-            
-            .btn {
-                min-height: 50px;
-            }
-            
-            .feature-card,
-            .advantage-card,
-            .solution-card {
-                cursor: pointer;
-            }
-            
-            .feature-card:active,
-            .advantage-card:active,
-            .solution-card:active {
-                transform: scale(0.98) !important;
-            }
-        }
-    `;
-    document.head.appendChild(touchStyle);
-}
-
-// Performance optimization - lazy loading for images
-if ('IntersectionObserver' in window) {
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                if (img.dataset.src) {
-                    img.src = img.dataset.src;
-                    img.removeAttribute('data-src');
+    galleryItems.forEach(item => {
+        // Анимация при скролле
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
                 }
-                observer.unobserve(img);
-            }
+            });
+        }, {
+            threshold: 0.1
         });
-    }, {
-        rootMargin: '50px 0px',
-        threshold: 0.1
+        
+        observer.observe(item);
+        
+        // Эффект при наведении
+        item.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px)';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
     });
     
-    // Observe all images with data-src attribute
-    document.querySelectorAll('img[data-src]').forEach(img => {
-        imageObserver.observe(img);
-    });
+    console.log('Galleries initialized:', galleryItems.length, 'items');
 }
-
-// Add loading="lazy" attribute to all images for native lazy loading
-document.querySelectorAll('img').forEach(img => {
-    if (!img.hasAttribute('loading')) {
-        img.setAttribute('loading', 'lazy');
-    }
-});
-
-// Handle browser compatibility for smooth scrolling
-(function() {
-    // Check if smooth scrolling is supported
-    if ('scrollBehavior' in document.documentElement.style) {
-        return; // Native smooth scrolling is supported
-    }
-    
-    // Polyfill for smooth scrolling
-    const smoothScrollTo = function(element, duration = 1000) {
-        const targetPosition = element.getBoundingClientRect().top + window.pageYOffset;
-        const startPosition = window.pageYOffset;
-        const distance = targetPosition - startPosition;
-        let startTime = null;
-        
-        function animation(currentTime) {
-            if (startTime === null) startTime = currentTime;
-            const timeElapsed = currentTime - startTime;
-            const run = ease(timeElapsed, startPosition, distance, duration);
-            window.scrollTo(0, run);
-            if (timeElapsed < duration) requestAnimationFrame(animation);
-        }
-        
-        function ease(t, b, c, d) {
-            t /= d / 2;
-            if (t < 1) return c / 2 * t * t + b;
-            t--;
-            return -c / 2 * (t * (t - 2) - 1) + b;
-        }
-        
-        requestAnimationFrame(animation);
-    };
-    
-    // Override default anchor link behavior
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            
-            if (href === '#') return;
-            
-            const targetElement = document.querySelector(href);
-            if (targetElement) {
-                e.preventDefault();
-                smoothScrollTo(targetElement, 1000);
-            }
-        });
-    });
-})();
-
-// Error handling and logging
-window.addEventListener('error', function(e) {
-    console.error('JavaScript Error:', e.message, 'at', e.filename, 'line', e.lineno);
-});
-
-// Добавляем обработчик для формы (если она будет добавлена в будущем)
-document.addEventListener('submit', function(e) {
-    if (e.target.matches('#contact-form')) {
-        e.preventDefault();
-        
-        // Простая валидация формы
-        const formData = new FormData(e.target);
-        let isValid = true;
-        
-        // Проверка обязательных полей
-        const requiredFields = e.target.querySelectorAll('[required]');
-        requiredFields.forEach(field => {
-            if (!field.value.trim()) {
-                showError(field, 'Это поле обязательно для заполнения');
-                isValid = false;
-            } else {
-                removeError(field);
-            }
-        });
-        
-        // Проверка email
-        const emailField = e.target.querySelector('input[type="email"]');
-        if (emailField && emailField.value.trim() && !isValidEmail(emailField.value)) {
-            showError(emailField, 'Введите корректный email адрес');
-            isValid = false;
-        }
-        
-        if (isValid) {
-            // Показать сообщение об успешной отправке
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
-            submitBtn.disabled = true;
-            
-            // Имитация отправки формы
-            setTimeout(() => {
-                alert('Спасибо! Ваше сообщение отправлено. Мы свяжемся с вами в ближайшее время.');
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-                e.target.reset();
-            }, 1500);
-        }
-    }
-});
-
-// Добавляем глобальный обработчик для отладки
-window.addEventListener('click', function(e) {
-    // Для отладки кнопок слайдеров
-    if (e.target.classList.contains('slider-btn') || 
-        e.target.closest('.slider-btn') || 
-        e.target.classList.contains('dot') ||
-        e.target.closest('.dot') ||
-        e.target.classList.contains('square-slider-btn') ||
-        e.target.closest('.square-slider-btn') ||
-        e.target.classList.contains('square-dot') ||
-        e.target.closest('.square-dot')) {
-        console.log('Slider control clicked:', e.target);
-    }
-    
-    // Для отладки модального окна
-    if (e.target.classList.contains('square-slide') ||
-        e.target.closest('.square-slide') ||
-        e.target.classList.contains('square-slide-image') ||
-        e.target.closest('.square-slide-image') ||
-        e.target.classList.contains('square-slide-overlay') ||
-        e.target.closest('.square-slide-overlay')) {
-        console.log('Slide element clicked for modal:', e.target);
-    }
-});
-
-// Простая версия слайдера на случай проблем (fallback)
-function simpleSliderFallback() {
-    console.log('Using simple slider fallback');
-    
-    const sliders = document.querySelectorAll('.slider-track, .square-slider-track');
-    
-    sliders.forEach((slider, index) => {
-        let currentSlide = 0;
-        const slides = slider.querySelectorAll('.slide, .square-slide');
-        const totalSlides = slides.length;
-        
-        if (totalSlides > 1) {
-            setInterval(() => {
-                currentSlide = (currentSlide + 1) % totalSlides;
-                slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-                
-                // Обновляем активные классы
-                slides.forEach((slide, i) => {
-                    slide.classList.toggle('active', i === currentSlide);
-                });
-                
-                // Обновляем точки
-                const container = slider.closest('.problem-slider-container, .square-slider-container');
-                if (container) {
-                    const dots = container.querySelectorAll('.dot, .square-dot');
-                    dots.forEach((dot, i) => {
-                        dot.classList.toggle('active', i === currentSlide);
-                    });
-                }
-            }, 5000);
-        }
-    });
-}
-
-// Проверяем через 3 секунды, работают ли слайдеры
-setTimeout(() => {
-    const problemSlider = document.querySelector('.problem-slider .slider-track');
-    const squareSlider = document.querySelector('.square-slider .square-slider-track');
-    
-    if ((problemSlider && problemSlider.style.transform === '') || 
-        (squareSlider && squareSlider.style.transform === '')) {
-        console.log('Sliders not working properly, using fallback');
-        simpleSliderFallback();
-    } else {
-        console.log('All sliders are working correctly');
-    }
-}, 3000);
 
 // Обновленная функция для мобильной навигации
 function initializeMobileNavigation() {
     console.log('Initializing mobile navigation...');
     
     const burgerMenu = document.querySelector('.burger-menu');
-    const navList = document.querySelector('.nav-list');
-    const headerContent = document.querySelector('.header-content');
     
     if (!burgerMenu) {
         console.error('Burger menu button not found');
@@ -1145,13 +861,7 @@ function createMobileMenu() {
             <i class="fas fa-times"></i>
         </button>
         
-        <div class="mobile-nav-header">
-            <img src="images/logo.png" alt="BioTechnology S.A." class="mobile-nav-logo">
-            <div class="mobile-nav-title">
-                <h3>BioTechnology S.A.</h3>
-                <p>Наука для плодородия земли</p>
-            </div>
-        </div>
+        
         
         <ul class="mobile-nav-list">
             <li class="mobile-nav-item">
@@ -1214,179 +924,274 @@ function createMobileMenu() {
     console.log('Mobile menu created successfully');
 }
 
-// Обновленный обработчик DOMContentLoaded
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, initializing...');
-    
-    // Preloader
-    const preloader = document.querySelector('.preloader');
-    const progressBar = document.querySelector('.progress-bar');
-    
-    if (preloader && progressBar) {
-        // Simulate loading progress
-        let progress = 0;
-        const progressInterval = setInterval(() => {
-            progress += Math.random() * 20;
-            if (progress > 100) {
-                progress = 100;
-                clearInterval(progressInterval);
-                
-                // Hide preloader after a short delay
-                setTimeout(() => {
-                    preloader.classList.add('fade-out');
-                    
-                    // Remove preloader from DOM after animation
-                    setTimeout(() => {
-                        preloader.style.display = 'none';
-                        document.body.style.overflow = 'auto';
-                    }, 500);
-                }, 300);
+// Touch device detection and enhancement
+if ('ontouchstart' in window) {
+    // Add touch-specific styles
+    const touchStyle = document.createElement('style');
+    touchStyle.textContent = `
+        @media (max-width: 768px) {
+            .nav-link {
+                padding: 15px 0;
+                font-size: 1.1rem;
             }
-            progressBar.style.width = `${progress}%`;
-        }, 100);
-    }
-    
-    // Header scroll effect
-    const header = document.querySelector('.header');
-    
-    function updateHeaderOnScroll() {
-        if (window.scrollY > 100) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
+            
+            .btn {
+                min-height: 50px;
+            }
+            
+            .gallery-item:active {
+                transform: scale(0.98) !important;
+            }
         }
-    }
-    
-    window.addEventListener('scroll', updateHeaderOnScroll);
-    updateHeaderOnScroll(); // Initial check
-    
-    // Update active navigation link on scroll
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    function updateActiveNavLink() {
-        let current = '';
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 100;
-            const sectionHeight = section.clientHeight;
-            if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-                current = section.getAttribute('id');
+    `;
+    document.head.appendChild(touchStyle);
+}
+
+// Performance optimization - lazy loading for images
+if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                if (img.dataset.src) {
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                }
+                observer.unobserve(img);
             }
         });
-        
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href').substring(1) === current) {
-                link.classList.add('active');
-            }
-        });
+    }, {
+        rootMargin: '50px 0px',
+        threshold: 0.1
+    });
+    
+    // Observe all images with data-src attribute
+    document.querySelectorAll('img[data-src]').forEach(img => {
+        imageObserver.observe(img);
+    });
+}
+
+// Add loading="lazy" attribute to all images for native lazy loading
+document.querySelectorAll('img').forEach(img => {
+    if (!img.hasAttribute('loading')) {
+        img.setAttribute('loading', 'lazy');
+    }
+});
+
+// Handle browser compatibility for smooth scrolling
+(function() {
+    // Check if smooth scrolling is supported
+    if ('scrollBehavior' in document.documentElement.style) {
+        return; // Native smooth scrolling is supported
     }
     
-    window.addEventListener('scroll', updateActiveNavLink);
-    
-    // Scroll to top button
-    const scrollToTopBtn = document.querySelector('.scroll-to-top');
-    
-    function updateScrollToTopButton() {
-        if (window.scrollY > 300) {
-            scrollToTopBtn.classList.add('visible');
-        } else {
-            scrollToTopBtn.classList.remove('visible');
+    // Polyfill for smooth scrolling
+    const smoothScrollTo = function(element, duration = 1000) {
+        const targetPosition = element.getBoundingClientRect().top + window.pageYOffset;
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        let startTime = null;
+        
+        function animation(currentTime) {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const run = ease(timeElapsed, startPosition, distance, duration);
+            window.scrollTo(0, run);
+            if (timeElapsed < duration) requestAnimationFrame(animation);
         }
-    }
-    
-    if (scrollToTopBtn) {
-        scrollToTopBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
         
-        window.addEventListener('scroll', updateScrollToTopButton);
-        updateScrollToTopButton(); // Initial check
-    }
+        function ease(t, b, c, d) {
+            t /= d / 2;
+            if (t < 1) return c / 2 * t * t + b;
+            t--;
+            return -c / 2 * (t * (t - 2) - 1) + b;
+        }
+        
+        requestAnimationFrame(animation);
+    };
     
-    // Animate on scroll
-    const animateElements = document.querySelectorAll('.animate-on-scroll');
-    
-    function checkScroll() {
-        animateElements.forEach(element => {
-            const elementTop = element.getBoundingClientRect().top;
-            const elementVisible = 150;
+    // Override default anchor link behavior
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
             
-            if (elementTop < window.innerHeight - elementVisible) {
-                element.classList.add('animated');
+            if (href === '#') return;
+            
+            const targetElement = document.querySelector(href);
+            if (targetElement) {
+                e.preventDefault();
+                smoothScrollTo(targetElement, 1000);
             }
         });
-    }
-    
-    window.addEventListener('scroll', checkScroll);
-    checkScroll(); // Initial check
-    
-    // Floating card tilt effect
-    const floatingCard = document.querySelector('.floating-card');
-    
-    if (floatingCard) {
-        floatingCard.addEventListener('mousemove', function(e) {
-            const cardWidth = floatingCard.offsetWidth;
-            const cardHeight = floatingCard.offsetHeight;
-            const centerX = floatingCard.offsetLeft + cardWidth / 2;
-            const centerY = floatingCard.offsetTop + cardHeight / 2;
-            const mouseX = e.pageX - centerX;
-            const mouseY = e.pageY - centerY;
-            
-            const rotateX = (mouseY / cardHeight) * 10;
-            const rotateY = -(mouseX / cardWidth) * 10;
-            
-            floatingCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+    });
+})();
+
+// Error handling and logging
+window.addEventListener('error', function(e) {
+    console.error('JavaScript Error:', e.message, 'at', e.filename, 'line', e.lineno);
+});
+
+// Добавляем обработчик для формы (если она будет добавлена в будущем)
+document.addEventListener('submit', function(e) {
+    if (e.target.matches('#contact-form')) {
+        e.preventDefault();
+        
+        // Простая валидация формы
+        const formData = new FormData(e.target);
+        let isValid = true;
+        
+        // Проверка обязательных полей
+        const requiredFields = e.target.querySelectorAll('[required]');
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                showError(field, 'Это поле обязательно для заполнения');
+                isValid = false;
+            } else {
+                removeError(field);
+            }
         });
         
-        floatingCard.addEventListener('mouseleave', function() {
-            floatingCard.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+        // Проверка email
+        const emailField = e.target.querySelector('input[type="email"]');
+        if (emailField && emailField.value.trim() && !isValidEmail(emailField.value)) {
+            showError(emailField, 'Введите корректный email адрес');
+            isValid = false;
+        }
+        
+        if (isValid) {
+            // Показать сообщение об успешной отправке
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
+            submitBtn.disabled = true;
+            
+            // Имитация отправки формы
             setTimeout(() => {
-                floatingCard.style.transform = '';
-            }, 300);
-        });
+                alert('Спасибо! Ваше сообщение отправлено. Мы свяжемся с вами в ближайшее время.');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                e.target.reset();
+            }, 1500);
+        }
+    }
+});
+
+// Вспомогательные функции для форм (если будут добавлены в будущем)
+function isValidEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+function showError(input, message) {
+    const formGroup = input.parentElement;
+    
+    // Remove existing error
+    const existingError = formGroup.querySelector('.error-message');
+    if (existingError) {
+        existingError.remove();
     }
     
-    // Инициализация всех слайдеров
+    // Add error class to input
+    input.classList.add('error');
+    
+    // Create error message
+    const error = document.createElement('div');
+    error.className = 'error-message';
+    error.style.color = '#f44336';
+    error.style.fontSize = '0.85rem';
+    error.style.marginTop = '5px';
+    error.textContent = message;
+    formGroup.appendChild(error);
+}
+
+function removeError(input) {
+    input.classList.remove('error');
+    const formGroup = input.parentElement;
+    const error = formGroup.querySelector('.error-message');
+    if (error) {
+        error.remove();
+    }
+}
+
+// Простая версия слайдера на случай проблем (fallback)
+function simpleSliderFallback() {
+    console.log('Using simple slider fallback');
+    
+    const sliders = document.querySelectorAll('.slider-track, .square-slider-track');
+    
+    sliders.forEach((slider, index) => {
+        let currentSlide = 0;
+        const slides = slider.querySelectorAll('.slide, .square-slide');
+        const totalSlides = slides.length;
+        
+        if (totalSlides > 1) {
+            setInterval(() => {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                // Обновляем активные классы
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === currentSlide);
+                });
+                
+                // Обновляем точки
+                const container = slider.closest('.problem-slider-container, .square-slider-container');
+                if (container) {
+                    const dots = container.querySelectorAll('.dot, .square-dot');
+                    dots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === currentSlide);
+                    });
+                }
+            }, 5000);
+        }
+    });
+}
+
+// Проверяем через 3 секунды, работают ли слайдеры
+setTimeout(() => {
+    const problemSlider = document.querySelector('.problem-slider .slider-track');
+    const squareSlider = document.querySelector('.square-slider .square-slider-track');
+    
+    if ((problemSlider && problemSlider.style.transform === '') || 
+        (squareSlider && squareSlider.style.transform === '')) {
+        console.log('Sliders not working properly, using fallback');
+        simpleSliderFallback();
+    } else {
+        console.log('All sliders are working correctly');
+    }
+}, 3000);
+
+// Инициализация анимаций для новых элементов
+function initializeAnimations() {
+    const animatedElements = document.querySelectorAll('.detail-block, .industry-results, .example-card, .gallery-item');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+    
+    animatedElements.forEach(element => {
+        observer.observe(element);
+    });
+}
+
+// Запуск инициализации анимаций после загрузки DOM
+document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
-        initializeSliders();
-    }, 100);
-    
-    // Инициализация мобильной навигации
-    initializeMobileNavigation();
-    
-    // Add current year to footer
+        initializeAnimations();
+    }, 500);
+});
+
+// Обновляем год в футере
+document.addEventListener('DOMContentLoaded', function() {
     const yearElement = document.querySelector('.current-year');
     if (yearElement) {
         yearElement.textContent = new Date().getFullYear();
     }
-    
-    // Smooth scroll for navigation links (для десктопного меню)
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            if (targetId.startsWith('#')) {
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    // Scroll to target
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
-    });
-    
-    console.log('Initialization complete');
 });
-
-// Остальной код (функции слайдеров, модального окна и т.д.) остается без изменений
-// ... [все остальные функции остаются такими же] ...
