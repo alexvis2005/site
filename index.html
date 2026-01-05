@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BioTechnology S.A. - Инновационные решения для засоленных почв</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="images/icon.png" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>BioTechnology S.A.</title>
     <style>
         /* Временные стили для проверки карточки. Уберите этот блок после добавления в style.css */
         .floating-card {
@@ -32,6 +28,10 @@
         }
         /* Конец временных стилей */
     </style>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="images/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Preloader -->
@@ -73,29 +73,32 @@
     </div>
 
     <header class="header">
-    <div class="container">
-        <div class="header-content">
-            <div class="logo">
-                <img src="images/logo.png" alt="BioTechnology S.A." class="logo-img">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="images/logo.png" alt="BioTechnology S.A." class="logo-img">
+                </div>
+                
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="#home" class="nav-link active">Главная</a></li>
+                        <li><a href="#problem" class="nav-link">Проблема</a></li>
+                        <li><a href="#solution" class="nav-link">Решение</a></li>
+                        <li><a href="#technology" class="nav-link">Технология</a></li>
+                        <li><a href="#advantages" class="nav-link">Преимущества</a></li>
+                        <li><a href="#contact" class="nav-link">Контакты</a></li>
+                    </ul>
+                    
+                    <button class="burger-menu" aria-label="Меню">
+                        <span class="burger-line"></span>
+                        <span class="burger-line"></span>
+                        <span class="burger-line"></span>
+                    </button>
+                </nav>
             </div>
-            
-            <nav class="nav">
-                <ul class="nav-list">
-                    <li><a href="#home" class="nav-link active">Главная</a></li>
-                    <li><a href="#problem" class="nav-link">Проблема</a></li>
-                    <li><a href="#solution" class="nav-link">Решение</a></li>
-                    <li><a href="#technology" class="nav-link">Технология</a></li>
-                    <li><a href="#advantages" class="nav-link">Преимущества</a></li>
-                    <li><a href="#contact" class="nav-link">Контакты</a></li>
-                </ul>
-                
-                
-            </nav>
         </div>
-    </div>
-</header>
+    </header>
 
-    <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-overlay"></div>
         <div class="container">
@@ -177,9 +180,13 @@
                         <div class="stat-text">пахотных земель деградированы</div>
                     </div>
 
-                   
-                    
-                   
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-tractor"></i>
+                        </div>
+                        <div class="stat-number">до 70%</div>
+                        <div class="stat-text">снижение урожайностим</div>
+                    </div>
                     
                     <div class="stat-card">
                         <div class="stat-icon">
@@ -246,6 +253,49 @@
                         </ul>
                     </div>
                 </div>
+                
+                <!-- Галерея озелененных видов -->
+                <div class="gallery-section animate-on-scroll delay-3">
+                    <h3><i class="fas fa-tree"></i> Озелененные территории</h3>
+                    <div class="gallery-grid">
+                        <div class="gallery-item">
+                            <img src="images/ping (1).jpg" alt="Озелененная территория 1">
+                            <div class="gallery-overlay">
+                                <i class="fas fa-expand-alt"></i>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/ping (2).jpg" alt="Озелененная территория 2">
+                            <div class="gallery-overlay">
+                                <i class="fas fa-expand-alt"></i>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/ping (3).jpg" alt="Озелененная территория 3">
+                            <div class="gallery-overlay">
+                                <i class="fas fa-expand-alt"></i>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/ping (4).jpg" alt="Озелененная территория 4">
+                            <div class="gallery-overlay">
+                                <i class="fas fa-expand-alt"></i>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/ping (5).jpg" alt="Озелененная территория 5">
+                            <div class="gallery-overlay">
+                                <i class="fas fa-expand-alt"></i>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/ping (6).jpg" alt="Озелененная территория 6">
+                            <div class="gallery-overlay">
+                                <i class="fas fa-expand-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -284,7 +334,32 @@
                 </div>
             </div>
             
-            <div class="esg-section animate-on-scroll delay-3">
+            <!-- Галерея пустынных видов с зеленью -->
+            <div class="gallery-section animate-on-scroll delay-3">
+                <h3><i class="fas fa-desert"></i> Преобразование пустынных регионов</h3>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="images/ping (10).jpg" alt="Пустыня с зеленью 1">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (11).jpg" alt="Пустыня с зеленью 2">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (12).jpg" alt="Пустыня с зеленью 3">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="esg-section animate-on-scroll delay-4">
                 <div class="esg-content">
                     <h3 style="color: white;"><i class="fas fa-globe"></i> Соответствие целям устойчивого развития ООН</h3>
                     <p>Технология ABMC BioTechnology напрямую способствует достижению Целей устойчивого развития ООН:</p>
@@ -363,6 +438,23 @@
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
+                    
+                </div>
+                               
+                <div class="technology-highlight animate-on-scroll delay-1">
+                    <div class="highlight-card">
+                        <div class="highlight-image">
+                            <img src="images/green.jpg" alt="Зеленые растения, выращенные с помощью технологии ABMC">
+                            <div class="highlight-overlay">
+                                <i class="fas fa-expand-alt"></i>
+                            </div>
+                        </div>
+                        <div class="highlight-content">
+                            <h3><i class="fas fa-leaf"></i> Зеленый результат технологии ABMC</h3>
+                            <p>Растения, выращенные с применением технологии ABMC BioTechnology, отличаются повышенной жизнеспособностью, насыщенным цветом и ускоренным ростом даже в условиях засоленных почв.</p>
+                            <p>Технология создает оптимальные условия для развития корневой системы и полноценного питания растений на клеточном уровне.</p>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="technology-description animate-on-scroll delay-1">
@@ -437,6 +529,43 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Галерея производства -->
+            <div class="gallery-section animate-on-scroll delay-3">
+                <h3><i class="fas fa-industry"></i> Производственные процессы</h3>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="images/ping (14).jpg" alt="Производство 1">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (15).jpg" alt="Производство 2">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (16).jpg" alt="Производство 3">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (17).jpg" alt="Производство 4">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (18).jpg" alt="Производство 5">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -470,6 +599,37 @@
                     <h3><i class="fas fa-chart-bar"></i> Механизм очистки и питания</h3>
                     <p>Применение ABMC BioTechnology, как ни парадоксально, приводит к активному вымыванию солей из почвы. В основе метода лежит изменение физико-химических параметров, ведущее к улучшению фильтрационных свойств, повышению растворяющей способности, что вызывает повышение выноса солей из засоленных почв и улучшение усвоения растениями питательных веществ.</p>
                     <p>Применение ABMC в 3-4 раза больше вымывает солей из почвы, чем обычная вода, при этом концентрация кислорода в этой воде увеличивается минимум на 10%. После промывки почвы с применением ABMC содержание элементов питания растений значительно увеличивается.</p>
+                </div>
+            </div>
+            
+            <!-- Галерея лаборатории -->
+            <div class="gallery-section animate-on-scroll delay-4">
+                <h3><i class="fas fa-microscope"></i> Лабораторные исследования</h3>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="images/ping (32).jpg" alt="Лаборатория 1">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (33).jpg" alt="Лаборатория 2">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (34).jpg" alt="Лаборатория 3">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (35).jpg" alt="Лаборатория 4">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -561,6 +721,37 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Галерея красивых видов с зеленью -->
+            <div class="gallery-section animate-on-scroll delay-3">
+                <h3><i class="fas fa-images"></i> Результаты применения технологии</h3>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="images/ping (40).jpg" alt="Красивый вид 1">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (41).jpg" alt="Красивый вид 2">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (42).jpg" alt="Красивый вид 3">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (43).jpg" alt="Красивый вид 4">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -608,10 +799,83 @@
                     </ul>
                 </div>
                 
-                
+                <div class="industry-results animate-on-scroll delay-3">
+                    <h3><i class="fas fa-fish"></i> Рыбоводство</h3>
+                    <ul class="results-list">
+                        <li><strong>Значительное увеличение товарной массы:</strong> 50-300%.</li>
+                        <li><strong>Опережающий темп развития ихтиомассы.</strong></li>
+                        <li><strong>Сокращение периода достижения товарного веса до 2 лет</strong> (толстолобик).</li>
+                        <li><strong>Возможность сокращения развития половозрелых особей осетровых до 4 лет</strong> (у стерляди).</li>
+                        <li>Возможность интенсивного выращивания рыбной продукции в естественных условиях.</li>
+                    </ul>
+                </div>
             </div>
             
-           
+            <!-- НОВЫЙ БЛОК: Примеры эффективности с ферм -->
+            <div class="farm-examples animate-on-scroll">
+                <h3><i class="fas fa-tractor"></i> Примеры эффективности на практике</h3>
+                <div class="example-grid">
+                    <div class="example-card">
+                        <h4><i class="fas fa-spa"></i> Цветы и трава</h4>
+                        <p>Ферма начала применять ABMC год назад. Цветы, выращенные с ABMC, резко отличаются размером и здоровьем от контрольной группы. Кормовая трава дала не 4, а 7 урожаев в год при поливе водой с содержанием соли >10 г/л.</p>
+                    </div>
+                    <div class="example-card">
+                        <h4><i class="fas fa-apple-alt"></i> Манго и лимоны</h4>
+                        <p>Урожай манго вырос с 28 кг до более чем 200 кг с дерева. Плоды отличаются вкусом и ароматом. Листья деревьев (манго и лимон) значительно крупнее и здоровее. Полуторагодовалые деревья достигли размера семилетних.</p>
+                    </div>
+                    <div class="example-card">
+                        <h4><i class="fas fa-coconut"></i> Кокосы и бананы</h4>
+                        <p>В неблагоприятных климатических условиях получены спелые кокосы, пригодные для продажи. Бананы на ферме с высоким содержанием соли в почве и воде (>2000 ppm) дали прекрасный урожай, превышающий урожай на плодородных землях с пресной водой.</p>
+                    </div>
+                    <div class="example-card">
+                        <h4><i class="fas fa-leaf"></i> Общий эффект</h4>
+                        <p>Фермы, применяющие ABMC, преображаются: появляется аромат цветов и зелени, резко увеличивается всхожесть семян (на 15-20 дней раньше), снижается заболеваемость растений, происходит быстрое обессоливание почвы.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Галерея красивых видов -->
+            <div class="gallery-section animate-on-scroll delay-1">
+                <h3><i class="fas fa-image"></i> Красивые пейзажи</h3>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="images/ping (19).jpg" alt="Красивый пейзаж 1">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (20).jpg" alt="Красивый пейзаж 2">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (21).jpg" alt="Красивый пейзаж 3">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (22).jpg" alt="Красивый пейзаж 4">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (23).jpg" alt="Красивый пейзаж 5">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/ping (24).jpg" alt="Красивый пейзаж 6">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -742,6 +1006,3 @@
     <script src="js/main.js"></script>
 </body>
 </html>
-
-
-
