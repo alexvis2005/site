@@ -8,6 +8,30 @@
     <link rel="icon" href="images/icon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Временные стили для проверки карточки. Уберите этот блок после добавления в style.css */
+        .floating-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0, 100, 0, 0.15);
+            border: 1px solid rgba(46, 125, 50, 0.1);
+            max-width: 380px; /* Фиксируем максимальную ширину */
+            width: 100%; /* Но она будет адаптивной */
+            margin: 0 auto; /* Центрируем */
+            position: relative;
+            z-index: 2;
+            box-sizing: border-box; /* Важно! */
+        }
+        @media (max-width: 768px) {
+            .floating-card {
+                max-width: 100%; /* На мобильных занимает всю доступную ширину контейнера */
+                padding: 20px;
+                margin-top: 30px;
+            }
+        }
+        /* Конец временных стилей */
+    </style>
 </head>
 <body>
     <!-- Preloader -->
@@ -102,7 +126,7 @@
                         <div class="card-content">
                             <div class="card-stats">
                                 <div class="stat-item">
-                                    <div class="stat-number">+30-70%</div>
+                                    <div class="stat-number">+70%</div>
                                     <div class="stat-text">Урожайность</div>
                                 </div>
                                 <div class="stat-item">
@@ -111,7 +135,7 @@
                                 </div>
                                 <div class="stat-item">
                                     <div class="stat-number">30+</div>
-                                    <div class="stat-text">Лет опыта</div>
+                                    <div class="stat-text">Лет</div>
                                 </div>
                             </div>
                         </div>
@@ -179,7 +203,7 @@
                                 <div class="slide-caption">Засоленные почвы в арабских странах</div>
                             </div>
                             <div class="slide">
-                                <img src="images/2s.jpg" alt="Пример засоленной почвы 2">
+                                <img src="images/2s.png" alt="Пример засоленной почвы 2">
                                 <div class="slide-caption">Деградация сельскохозяйственных земель</div>
                             </div>
                             <div class="slide">
@@ -420,6 +444,41 @@
         </div>
     </section>
 
+    <!-- НОВАЯ СЕКЦИЯ: Технология в деталях -->
+    <section class="technology-details-section">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">Принцип действия ABMC</h2>
+                <h3 class="section-subtitle">Решения проблемы на клеточном и капиллярном уровне</h3>
+            </div>
+            <div class="details-content">
+                <div class="detail-block animate-on-scroll">
+                    <h3><i class="fas fa-tint"></i> Проблема капилляров и солей</h3>
+                    <p>Одной из серьёзных проблем в сельском хозяйстве является засоление почвы. Причиной служит осаждение солей в капиллярах почвы, что приводит к резкому снижению ее пропускной способности. Концентрация солей в капиллярах растений и незначительное поступление питательных веществ приводит к гибели растений.</p>
+                    <p>Что произойдет, если капилляры будут пропускать кристаллы солей? Такие кристаллы сразу заблокируют капилляры и это послужит причиной засоления капилляров растений и почвы.</p>
+                </div>
+                
+                <div class="detail-block animate-on-scroll delay-1">
+                    <h3><i class="fas fa-magic"></i> Решение с помощью ABMC</h3>
+                    <p>Задача сократить размер кристаллов солей. Технология ABMC BioTechnology способна решить эту задачу. В результате количество солей в воде не становится меньше, но эти соли уже не опасны, так как не забивают капилляры.</p>
+                    <p>С обессоливанием почв тесно связана и проблема полива растений соленой водой. Растение возьмет с такой почвы все необходимое для роста, выбросив в дренаж бесполезные кристаллы соли и другие компоненты. Капилляры почвы также свободно пропустят эти кристаллы солей в общую подвижную систему водообмена.</p>
+                </div>
+                
+                <div class="detail-block animate-on-scroll delay-2">
+                    <h3><i class="fas fa-atom"></i> Межклеточная жидкость и биологическая активность</h3>
+                    <p>Производство активного био комплекса ABMC BioTechnology создаёт биофизические параметры, близкие к тканевым жидкостям. По своей структуре ABMC соответствует межклеточной жидкости, сохраняет свои свойства и структуру на длительное время, сдерживает процессы старения. Потенциал ABMC считается важнейшим показателем биологической активности.</p>
+                    <p>Он оказывает общее благоприятное воздействие на функциональные системы организма клетки, поднимает иммунитет, уменьшает содержание углекислого газа в клетке, более эффективно выводя вредные продукты жизнедеятельности и шлаки.</p>
+                </div>
+                
+                <div class="detail-block animate-on-scroll delay-3">
+                    <h3><i class="fas fa-chart-bar"></i> Механизм очистки и питания</h3>
+                    <p>Применение ABMC BioTechnology, как ни парадоксально, приводит к активному вымыванию солей из почвы. В основе метода лежит изменение физико-химических параметров, ведущее к улучшению фильтрационных свойств, повышению растворяющей способности, что вызывает повышение выноса солей из засоленных почв и улучшение усвоения растениями питательных веществ.</p>
+                    <p>Применение ABMC в 3-4 раза больше вымывает солей из почвы, чем обычная вода, при этом концентрация кислорода в этой воде увеличивается минимум на 10%. После промывки почвы с применением ABMC содержание элементов питания растений значительно увеличивается.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Advantages Section -->
     <section id="advantages" class="advantages-section">
         <div class="container">
@@ -509,6 +568,57 @@
         </div>
     </section>
 
+    <!-- НОВАЯ СЕКЦИЯ: Результаты исследований и практики -->
+    <section class="results-section">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">Результаты исследований и практики</h2>
+                <h3 class="section-subtitle">Доказанная эффективность технологии ABMC в различных отраслях</h3>
+            </div>
+            
+            <div class="results-content">
+                <div class="industry-results animate-on-scroll">
+                    <h3><i class="fas fa-seedling"></i> Растениеводство</h3>
+                    <ul class="results-list">
+                        <li><strong>Повышение урожайности:</strong> от 20% до 300% и более.</li>
+                        <li><strong>Сокращение вегетационного периода:</strong> на 10-40%.</li>
+                        <li><strong>Значительное повышение качества продукции.</strong></li>
+                        <li><strong>Восстановление гумусного слоя</strong> в почве.</li>
+                        <li>Возможность полного отказа от ядохимикатов.</li>
+                        <li>Испытания проводились практически по всему спектру зерновых, технических культур, кустарников, садов.</li>
+                    </ul>
+                </div>
+                
+                <div class="industry-results animate-on-scroll delay-1">
+                    <h3><i class="fas fa-cow"></i> Животноводство</h3>
+                    <ul class="results-list">
+                        <li><strong>Излечение копытницы, дистрофии, инфекционных и простудных заболеваний.</strong></li>
+                        <li><strong>Снижение падежа молодняка.</strong></li>
+                        <li><strong>Повышение привесов и надоев.</strong></li>
+                        <li><strong>Повышение органолептических параметров и вкусовых качеств продукции.</strong></li>
+                        <li>Существенное оздоровление поголовья в целом.</li>
+                        <li>Испытания проводились на стадах от 20 до 500 голов КРС в разные времена года.</li>
+                    </ul>
+                </div>
+                
+                <div class="industry-results animate-on-scroll delay-2">
+                    <h3><i class="fas fa-kiwi-bird"></i> Птицеводство</h3>
+                    <ul class="results-list">
+                        <li><strong>Поение молодняка птенцов:</strong> происходит опережение темпа развития.</li>
+                        <li><strong>Значительное повышение среднесуточного привеса молодняка</strong> (увеличивается на 30−60% по отношению к контролю).</li>
+                        <li><strong>Снижение заболевания и падежа молодняка птенцов до 100%.</strong></li>
+                        <li><strong>Сохранность инкубационных яиц до 100%.</strong></li>
+                        <li>Существенное оздоровление поголовья в целом.</li>
+                    </ul>
+                </div>
+                
+                
+            </div>
+            
+           
+        </div>
+    </section>
+
     <!-- Contact Section (без формы) -->
     <section id="contact" class="contact-section">
         <div class="container">
@@ -557,16 +667,7 @@
                             </div>
                         </div>
                         
-                        <div class="contact-card-full">
-                            <div class="contact-icon-large">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div class="contact-details-full">
-                                <h4>Часы работы</h4>
-                                <p>Пн-Пт: 9:00-18:00</p>
-                                <p>Сб-Вс: по договоренности</p>
-                            </div>
-                        </div>
+                        
                     </div>
                     
                     <div class="contact-message-full animate-on-scroll delay-1">
